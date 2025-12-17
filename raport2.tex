@@ -1,0 +1,423 @@
+\documentclass[a4paper,onecolumn,twoside,10pt]{article}%{mwrep}
+
+\usepackage{times}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage{lmodern} %Type1-font for non-english texts and characters
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{subcaption}
+
+\usepackage{booktabs} % Dla ładniejszych linii poziomych (\toprule, \midrule)
+\usepackage{colortbl} % Dla kolorowania wierszy
+\usepackage{array}    % Użyteczne z p{...}
+
+
+\usepackage[cmex10]{amsmath}
+
+%% Packages for Graphics & Figures %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\usepackage{bmpsize}
+
+\usepackage{graphicx} %%For loading graphic files
+\usepackage[pdf]{pstricks}
+\usepackage{pst-all}
+\usepackage{moredefs}
+%\usepackage{auto-pst-pdf}
+%\usepackage{auto-pst-pdf}
+\usepackage[crop=off]{auto-pst-pdf}
+
+\usepackage{fancyhdr}
+\usepackage{url}
+\usepackage{float}
+\usepackage{color}
+\usepackage{xcolor}
+
+\usepackage{multirow}
+
+%\usepackage{epstopdf}
+\definecolor{light-gray}{gray}{0.4}
+\definecolor{mauve}{rgb}{0.88, 0.69, 1.0}
+\definecolor{pakistangreen}{rgb}{0.0, 0.4, 0.0}
+\definecolor{pearl}{rgb}{0.94, 0.92, 0.84}
+\definecolor{whitesmoke}{rgb}{0.96, 0.96, 0.96}
+\definecolor{gray-pp}{rgb}{0.13, 0.6, 0.82}
+
+\usepackage{colortbl}
+\usepackage{listings}
+\lstset{
+	basicstyle=\footnotesize\ttfamily,
+	columns=fullflexible,
+	frame=single,
+	breaklines=true,
+	numbers=left, stepnumber=2, numbersep=5pt,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{gray-pp},
+	stringstyle=\color{mauve},
+	backgroundcolor = \color{whitesmoke},
+	breakatwhitespace=true,
+	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}
+}
+
+
+
+\cfoot{-~\thepage \textcolor{light-gray}{~| Strona~-}}
+
+\hyphenpenalty=10000		% nie dziel wyrazów zbyt często
+\clubpenalty=10000			% kara za sierotki
+\widowpenalty=10000			% nie pozostawiaj wdów
+\brokenpenalty=10000		% nie dziel wyrazów między stronami
+\exhyphenpenalty=999999		% nie dziel słów z myślnikiem
+\righthyphenmin=3			% dziel minimum 3 litery
+
+\tolerance=4500
+\pretolerance=250
+\hfuzz=1.5pt
+\hbadness=1450
+
+\sloppy						% umacnia pozycję prawego marginesu
+
+\setlength{\textwidth}{\paperwidth}
+\addtolength{\textwidth}{-5cm}
+\setlength{\textheight}{\paperheight}
+\addtolength{\textheight}{-5cm}
+\setlength{\oddsidemargin}{0cm}
+\setlength{\evensidemargin}{0cm}
+\topmargin -1.25cm
+\footskip 1.4cm
+
+\linespread{1.3}
+
+\begin{document}
+	\raggedbottom 
+	%\input{hypernation}
+	%\input{title-page}
+	\setlength\extrarowheight{2pt}
+	\begin{table}[ht]
+		\centering
+		%\resizebox{\textwidth}{!}{%
+			\begin{tabular}{|p{5cm}|p{7cm}|p{2cm}|}
+				\hline
+				%\rowcolor{gray}
+				%\multicolumn{3}{|c|}{\textcolor[rgb]{1,1,1}{Scalenie trzech kolumn}}\\
+				
+				\multicolumn{2}{|c|}{\cellcolor{gray-pp}\textcolor[rgb]{1,1,1}{Politechnika Poznańska}}  & \multicolumn{1}{c|}{\multirow{3}{*}{\resizebox{15mm}{!}{\includegraphics{PP_znak_konturowy_CMYK.pdf}}}}\\ 
+				\multicolumn{2}{|c|}{\cellcolor{gray-pp}\textcolor[rgb]{1,1,1}{Wydział Automatyki, Robotyki i Elektrotechniki}} & \\ 
+				\multicolumn{2}{|c|}{\cellcolor{gray-pp}\textcolor[rgb]{1,1,1}{Instytut Robotyki i Inteligencji Maszynowej}} & \\ 
+				\hline 
+				\multicolumn{1}{|c|}{Dz>AiR>Sem5} & \multicolumn{1}{c|}{Napędy przekształtnikowe (NP)} & \multicolumn{1}{c|}{2025/26 (s.zim.)} \\
+				\hline
+				\textbf{Skład osobowy:} \par Zuzanna Andrzejak 159522 \par Jan Andrzejewski 159512 \par Mateusz Banaszak 159416 \par Piotr Bednarek 159701 & 
+				\textbf{Identyfikacja parametrów modelu obwodowego silnika prądu stałego} 
+				& Data wyk.:\par 04.12.2025\\
+				\hline
+				Grupa 1  & Ćwiczenie 2 & Zajęcia 2 \\
+				\hline
+			\end{tabular}%
+			%}
+	\end{table}	
+	\setlength\extrarowheight{0pt}
+	\vspace{1.5cm}
+	\tableofcontents
+	\newpage
+	
+	\section{Wprowadzenie}
+	W poprzednim ćwiczeniu laboratoryjnym zdefiniowano model obwodowy obcowzbudnego silnika prądu stałego z komutatorem, przyjmując określone parametry w celu zrealizowania uproszczonego modelu. Celem kolejnego ćwiczenia było eksperymentalne wyznaczenie tych parametrów na podstawie pomiarów przeprowadzonych na rzeczywistym, identyfikowanym obiekcie \cite{ekurs}. Podczas analizy uwzględniono wektor parametrów modelu w postaci:
+	\begin{equation}
+		P^T = \left[ R_a,\; L_a,\; k_{\Phi},\; J_r,\; b_1 \right]
+		\label{eq:parametry}
+	\end{equation}
+	
+	
+	Pomiary zrealizowano w sali C3 w budynku A22b, wyposażonej w stanowisko laboratoryjne z układem silnika umożliwiającym wymuszenie zadanej prędkości obrotowej wału. Stanowisko pomiarowe obejmowało ponadto multimetry, laboratoryjny zasilacz z ograniczeniem prądu oraz oscyloskop. W trakcie ćwiczenia wykorzystano również środowisko symulacyjne \texttt{MATLAB} do analizy zarejestrowanych danych pomiarowych oraz sporządzenia odpowiednich charakterystyk i wykresów.
+
+	\vspace{1cm}
+	
+	\section{Rezystancja twornika $R_a$}
+	\subsection{Metodyka pomiarów}
+	W celu wyznaczenia rezystancji uzwojenia twornika $R_a$ zastosowano \textbf{metodę techniczną}, cechującą się mniejszą niepewnością pomiarową w porównaniu z pozostałymi metodami. W układzie pomiarowym wykorzystano laboratoryjny zasilacz \texttt{MCP M10-TP-303E}, umożliwiający zadawanie określonych wartości prądu zasilania. Wartości prądu odczytywano bezpośrednio z wyświetlacza zasilacza.
+	
+	Ze względu na niepewność pomiarową związaną z odczytem napięcia z wyświetlacza zasilacza, pomiar napięcia realizowano za pomocą multimetru \texttt{UNI-T UT58C}.
+	
+	Rezystancję przewodów pomiarowych pominięto, ponieważ zastosowano przewody wysokiej klasy, a ich długość była niewielka ze względu na bezpośrednie umiejscowienie aparatury pomiarowej w pobliżu badanego obwodu, co skutkowało znikomym wpływem na końcowy wynik pomiaru.
+	
+	\subsection{Pomiary i opracowanie wyników}
+	
+	Zebrano pomiary prądu uzwojenia twornika $I_a$ oraz napięcia twornika $U_a$. W trakcie badań zmieniano wartość prądu zasilania w zakresie do $3\ A$. Na podstawie uzyskanych danych pomiarowych możliwe było wyznaczenie rezystancji uzwojenia twornika dwiema niezależnymi metodami.
+	\\
+	
+	Pierwsza metoda polegała na obliczeniu wartości rezystancji dla każdego punktu pomiarowego na podstawie prawa Ohma, zgodnie z zależnością:
+	\begin{equation}
+		R_a = \frac{U_a}{I_a}
+		\label{eq:ohm}
+	\end{equation}
+	gdzie: $R_a$ to rezystancja twornika, $U_a$ to napięcie na zaciskach twornika, $I_a$ to prąd uzwojenia twornika.
+	
+	Otrzymane wyniki zestawiono w tabeli \ref{tab:rezystancja}.
+	\vspace{1cm}
+		
+	\begin{table}[h]
+		\centering
+		\caption{Wyniki pomiarów i obliczona rezystancja}
+		\label{tab:rezystancja}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			Prąd $I_a$ [A] & Napięcie $U_a$ [V] & Rezystancja $R_a$ [$\Omega$] \\
+			\hline
+			0.00 & 0.00 & 0.00 \\
+			0.50 & 1.53 & 3.06 \\
+			0.74 & 2.24 & 3.03 \\
+			1.00 & 3.04 & 3.04 \\
+			1.25 & 3.78 & 3.02 \\
+			1.50 & 4.65 & 3.10 \\
+			1.75 & 5.28 & 3.02 \\
+			2.00 & 6.19 & 3.10 \\
+			2.25 & 6.82 & 3.03 \\
+			2.50 & 7.71 & 3.08 \\
+			2.75 & 8.42 & 3.06 \\
+			2.99 & 9.18 & 3.07 \\
+			
+			\hline
+		\end{tabular}
+	\end{table}
+	
+	Następnie wyznaczono wartość średnią arytmetyczną rezystancji na podstawie wszystkich przeprowadzonych pomiarów:
+	\begin{equation}
+		R_a \approx 3.0555 \ \Omega
+		\label{eq:Ra_srednia}
+	\end{equation}
+	co stanowiło pierwsze przybliżenie wartości parametru $R_a$.
+	\\
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.8\textwidth]{ra.pdf}
+		\caption{Wyznaczenie rezystancji twornika metodą regresji liniowej}
+		\label{fig:Ra}
+	\end{figure}
+	
+	Drugą metodą wyznaczenia rezystancji uzwojenia twornika było zastosowanie regresji liniowej. Linię regresji wyznaczono z wykorzystaniem skryptu w środowisku \texttt{MATLAB}. Współczynnik kierunkowy dopasowanej charakterystyki stanowił poszukiwaną wartość rezystancji. Regresję przeprowadzono w postaci funkcji liniowej $y = ax$, bez uwzględnienia wyrazu wolnego, co pozwoliło ograniczyć wpływ niepożądanych zakłóceń i błędów offsetu pomiarowego. Charakterystyka została przedstawiona na rysunku \ref{fig:Ra}
+	
+	Wartość rezystancji twornika wyznaczona metodą regresji liniowej wyniosła:
+	\begin{equation}
+		R_a = 3.0724 \ \Omega
+		\label{eq:Ra_regresja}
+	\end{equation}
+	
+	Uzyskane wartości rezystancji różnią się ze względu na odmienny charakter błędów pomiarowych występujących w obu metodach. Metoda regresji liniowej charakteryzuje się mniejszą wrażliwością na błędy losowe, ponieważ wykorzystuje globalną informację zawartą w całym zbiorze punktów pomiarowych. Analizowana charakterystyka opisuje wzajemnie powiązane punkty, których trend oceniany jest w całym zakresie pomiarowym, w przeciwieństwie do metody średniej arytmetycznej, w której każdy pomiar traktowany jest niezależnie.
+	
+	W związku z powyższym, jako bardziej wiarygodną metodę wyznaczania rezystancji uzwojenia twornika przyjęto metodę regresji liniowej, która zapewnia mniejszą niepewność pomiarową oraz lepsze odwzorowanie rzeczywistej zależności pomiędzy mierzonymi wielkościami.
+	
+	\subsection{Porównanie otrzymanych wartości}
+	
+	Dla ilościowego porównania obu metod wyznaczono różnicę bezwzględną oraz względną pomiędzy uzyskanymi wartościami rezystancji uzwojenia twornika. Różnica bezwzględna wynosi
+	\begin{equation}
+		\Delta R_a = \left| R_{a \ reg} - R_{a \ śr} \right| = 0.0169 \ \Omega
+	\end{equation}
+	
+	Różnicę względną, odniesioną do wartości uzyskanej metodą regresji liniowej, wyznaczono ze wzoru
+	\begin{equation}
+		\delta R_a = \frac{\Delta R_a}{R_{a \ reg}} \cdot 100\% \approx 0.55\%
+	\end{equation}
+	
+	Niewielka wartość różnicy względnej potwierdza spójność otrzymanych wyników oraz poprawność przeprowadzonych pomiarów. Jednocześnie metoda regresji liniowej zapewnia większą odporność na błędy losowe i lepsze wykorzystanie informacji zawartej w całym zbiorze danych pomiarowych, dlatego jej wynik został przyjęty do dalszych analiz.
+	
+	\vspace{1cm}
+	
+	\section{Indukcyjność uzwojenia twornika $L_a$}
+	\subsection{Metodyka pomiarów}
+	
+	Pomiar indukcyjności uzwojenia twornika $L_a$, w przeciwieństwie do pomiaru rezystancji, możliwy jest wyłącznie w stanie dynamicznym. Efekt indukcyjności ujawnia się w odpowiedzi układu na wymuszenie nieustalone, w szczególności o charakterze skokowym. Ze względu na właściwości zastosowanego zasilacza laboratoryjnego uzyskanie idealnego wymuszenia skokowego było utrudnione, ponieważ obecność transformatora powodowała istotne zakłócenia w momentach przełączania przekaźników.
+	
+	Z tego względu do obserwacji wpływu indukcyjności uzwojenia twornika wykorzystano \textbf{zjawisko zaniku prądu w obwodzie}, występujące w procesie komutacji. Analiza przebiegu czasowego prądu w fazie jego wygaszania umożliwiła pośrednie wyznaczenie wartości indukcyjności $L_a$.
+	\\ 
+	
+	Proces zaniku prądu w obwodzie twornika ma charakter wykładniczy i zachodzi od wartości początkowej $A$ do zera ze stałą czasową $\tau_a$. Przebieg ten można aproksymować przy pomocy równania:
+	\begin{equation}
+		I_a(t) = A e^{-\frac{t}{\tau_a}}
+		\label{eq:Ae}
+	\end{equation}
+	
+	Dla każdego układu typu $RL$ stała czasowa $\tau_a$ określona jest zależnością:
+	\begin{equation}
+		\tau_a = \frac{L_a}{R_a}
+		\label{eq:RL}
+	\end{equation}
+	
+	Oznacza to, że wyznaczając chwilę czasu, w której wartość prądu osiąga poziom $\frac{A}{e}$, możliwe jest określenie stałej czasowej układu, gdyż zachodzi zależność:
+	\begin{equation}
+		I_a(t = \tau_a) = A e^{-1} = \frac{A}{e}
+	\end{equation}
+	
+	Po wyznaczeniu wartości stałej czasowej $\tau_a$ oraz znanej rezystancji uzwojenia twornika $R_a$, określonej w poprzednim punkcie, indukcyjność uzwojenia twornika jest możliwa do obliczenia z przekształconej zależności \eqref{eq:RL}:
+	\begin{equation}
+		L_a = \tau_a R_a
+		\label{eq:La}
+	\end{equation}
+	
+	\subsection{Pomiary i opracowanie wyników}
+	
+	W celu wyznaczenia indukcyjności uzwojenia twornika $L_a$ utworzono układ pomiarowy z wykorzystaniem wcześniej stosowanego zasilacza laboratoryjnego, umożliwiającego wymuszenie zadanej wartości prądu twornika. Układ pomiarowy składał się także z badanego obwodu typu $RL$ oraz przełącznika sterującego.
+	\\
+	
+	Ponieważ celem pomiaru była obserwacja odpowiedzi dynamicznej układu, konieczne było wytworzenie wymuszenia skokowego. Zrealizowano je poprzez gwałtowne zwarcie obwodu za pomocą przełącznika, co powodowało zanik prądu w obwodzie pomiarowym. Przebieg wygaszania prądu stanowił podstawę do dalszej analizy indukcyjności uzwojenia twornika.
+	
+	Pomiary przeprowadzono dla trzech nastaw wartości prądu początkowego: 
+	$A = I_a = 1.01\,\mathrm{A}$, $2.02\,\mathrm{A}$ oraz $3.10\,\mathrm{A}$. 
+	Dane niezbędne do wyznaczenia indukcyjności uzwojenia twornika zarejestrowano za pomocą oscyloskopu w postaci plików \texttt{.csv}.
+	\\
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.8\textwidth]{1a.pdf}
+		\caption{Przebieg zaniku prądu w obwodzie twornika, $I_a = 1.01$ A}
+		\label{fig:La_1a}
+	\end{figure}
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.8\textwidth]{2a.pdf}
+		\caption{Przebieg zaniku prądu w obwodzie twornika, $I_a = 2.02$ A}
+		\label{fig:La_2a}
+	\end{figure}
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.8\textwidth]{3a.pdf}
+		\caption{Przebieg zaniku prądu w obwodzie twornika, $I_a = 3.10$ A}
+		\label{fig:La_3a}
+	\end{figure}
+	
+	Na podstawie zarejestrowanych przebiegów, z wykorzystaniem dedykowanego skryptu w środowisku \texttt{MATLAB}, opracowano charakterystyki czasowe prądu, przedstawione na rysunkach \ref{fig:La_1a}, \ref{fig:La_2a}, \ref{fig:La_3a}, na podstawie których wyznaczono wartości stałej czasowej układu:
+	\begin{equation}
+		\label{eq:tau}
+		\tau_a =\begin{bmatrix}
+			23.0 \\
+			21.3 \\
+			20.0
+		\end{bmatrix} 
+		\ \mathrm{ms}
+	\end{equation}
+
+	Na ich podstawie, zgodnie z zależnością \eqref{eq:La}, obliczono wartości indukcyjności uzwojenia twornika:
+	\begin{equation}
+		L_a =
+		\begin{bmatrix}
+			70.665 \\
+			65.442 \\
+			61.448
+		\end{bmatrix}
+		\ \mathrm{mH}
+	\end{equation}
+	
+	Następnie wyznaczono średnią arytmetyczną otrzymanych wartości indukcyjności:
+	\begin{equation}
+		\bar{L}_a = 65.852 \ \mathrm{mH}
+	\end{equation}
+	
+	W celu oceny rozrzutu wyników obliczono odchylenie standardowe:
+	\begin{equation}
+		s = \sqrt{\frac{1}{N-1}\sum_{i=1}^{N}\left(L_{a \ i}-\bar{L}_a\right)^2}
+		= 4.622 \ \mathrm{mH}
+	\end{equation}
+	gdzie $N=3$ oznacza liczbę przeprowadzonych pomiarów.
+	
+	
+	Ostatecznie wartość \textbf{indukcyjności uzwojenia twornika} określono jako:
+	\begin{equation}
+		L_a = (65.852 \pm 4.622)\ \mathrm{mH}
+	\end{equation}
+	
+	
+	\vspace{1cm}
+	
+	
+	\section{Współczynnik $k_{\Phi}$}
+	\subsection{Metodyka pomiarów}
+	
+	Z poprzedniego ćwiczenia laboratoryjnego wiadomo, że współczynnik $k_{\Phi}$ stanowi uproszczenie przyjęte w analizowanym modelu silnika. W ujęciu rzeczywistym rozróżnia się stałą napięciową $k_v$ oraz stałą momentową $k_m$. W niniejszym ćwiczeniu nadal rozpatrywana jest uproszczona postać parametru, zakładająca równość obu stałych.
+	\\
+	
+	Przy takim założeniu współczynnik $k_{\Phi}$ może zostać wyznaczony na podstawie dwóch zależności opisujących pracę silnika prądu stałego:
+	\begin{equation}
+		T_e = k_{\Phi} \cdot i_a
+		\label{eq:kfi_moment}
+	\end{equation}
+	\begin{equation}
+		\varepsilon = k_{\Phi} \cdot \omega_r
+		\label{eq:kfi_napiecie}
+	\end{equation}
+	gdzie $T_e$ oznacza moment elektromagnetyczny, $i_a$ to prąd twornika, $\varepsilon$ to siła elektromotoryczna, $\omega_r$ to prędkość kątową wirnika.
+	\\
+	
+	Wybór metody wyznaczenia współczynnika $k_{\Phi}$ podyktowany był możliwościami oferowanymi przez stanowisko laboratoryjne. Bezpośredni pomiar momentu elektromagnetycznego jest procesem złożonym i obarczonym dużą niepewnością, natomiast pomiar siły elektromotorycznej oraz prędkości obrotowej jest znacznie prostszy do realizacji. Z tego względu do wyznaczenia współczynnika $k_{\Phi}$ wykorzystano zależność \eqref{eq:kfi_napiecie}, którą przekształcono do postaci:
+	\begin{equation}
+		\label{eq:kfi_wyznaczenie}
+		k_{\Phi} = \frac{\varepsilon}{\omega_r}
+	\end{equation}
+	
+	Takie wyznaczenie współczynnika $k_{\Phi}$ jest możliwe wyłącznie w przypadku, gdy napięcie na zaciskach twornika spełnia zależność:
+	\begin{equation}
+		U_a = \varepsilon
+	\end{equation}
+	Warunek ten zachodzi jedynie przy rozwartym obwodzie twornika, gdy prąd twornika jest równy zeru, a spadki napięcia na rezystancji i indukcyjności uzwojenia nie występują.
+	
+	Ponieważ podczas pomiaru zaciski twornika muszą pozostać rozwarte, a jednocześnie konieczne jest zapewnienie niezerowej prędkości obrotowej wirnika, realizacja pomiarów wymagała zastosowania aktywnego wzbudzenia mechanicznego. W tym celu do napędu obcego wykorzystano urządzenie \texttt{Microverter AEG}, pracujące jako przekształtnik częstotliwości, umożliwiający sterowanie prędkością obrotową silnika napędzającego badany obiekt.
+	
+	\subsection{Pomiary i opracowanie wyników}
+	
+	W celu wyznaczenia stałej $k_{\Phi}$ z zależności \eqref{eq:kfi_wyznaczenie} przeprowadzono pomiary zależności siły elektromotorycznej $\varepsilon$ od zadanej prędkości obrotowej $\omega_r$. Prędkość obrotowa była wymuszana za pomocą przekształtnika częstotliwości \texttt{Microverter AEG}, pracującego jako napęd obcy.
+	
+	Ponieważ analizowana charakterystyka ma charakter liniowy, do wyznaczenia współczynnika $k_{\Phi}$ zastosowano metodę regresji liniowej. W przeciwieństwie do wcześniejszych analiz, wykorzystano model regresji liniowej z wyrazem wolnym. Decyzję tę podjęto ze względu na występowanie stałego przesunięcia (offsetu) toru pomiarowego napięcia twornika, który w badanym układzie powodował pojawienie się napięcia rzędu $0.02\,\mathrm{V}$ przy zerowej prędkości obrotowej.
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.8\textwidth]{kfi.pdf}
+		\caption{Wyznaczenie stałej $k_{\Phi}$ metodą regresji liniowej}
+		\label{fig:kfi}
+	\end{figure}
+	
+	Uwzględniając wyraz wolny w modelu regresji liniowej, otrzymano równanie opisujące zależność siły elektromotorycznej od prędkości obrotowej:
+	\begin{equation}
+		\varepsilon = 1.800 \ \omega_r + 0.02 \ \mathrm{[V]}
+	\end{equation}
+	
+	Współczynnik kierunkowy otrzymanej charakterystyki odpowiada wartości współczynnika $k_{\Phi}$, który dla analizowanego silnika wynosi:
+	\begin{equation}
+		k_{\Phi} = 1.800
+	\end{equation}
+	
+	
+	
+	
+	
+	
+	\vspace{1cm}
+	\section{Moment bezwładności wirnika $J_r$}
+	\vspace{1.5cm}
+	
+	\section{Współczynnik $b_1$}
+	
+
+	
+	
+	\vspace{1.5cm}
+	
+	\begin{thebibliography}{9}
+		\bibitem{ekurs}
+		Materiały do ćwiczenia laboratoryjnego dostępne na platformie eKursy, Politechnika Poznańska, \texttt{https://ekursy.put.poznan.pl/mod/folder/view.php?id=3022726}
+		\bibitem{zawirski}
+		K. Zawirski, J. Deskur, T. Kaczmarek, \textit{Automatyka napędu elektrycznego}, Wydawnictwo Politechniki Poznańskiej, 2012
+		\bibitem{sidorowicz}
+		J. Sidorowicz, \textit{Napęd elektryczny i jego sterowanie}, Oficyna Wydawicza Politechniki Warszawskiej, 1997
+	\end{thebibliography}
+	
+	
+	
+	
+\end{document}
